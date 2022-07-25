@@ -16,7 +16,7 @@
             @click.prevent="addNewTodo"
             class="button is-info ml-3"
           >
-            Search
+            Add new
           </button>
         </div>
       </div>
