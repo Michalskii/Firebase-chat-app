@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="is-vcentered">
     <div class="">
       <h1
         class="
@@ -11,7 +11,7 @@
       >
         Todo list
       </h1>
-      <form class="mb-5">
+      <form class="mb-5 has-text-centered">
         <div class="field has-addons">
           <div class="control">
             <input
@@ -25,42 +25,39 @@
             <button
               :disabled="!newTodoContent"
               @click.prevent="addNewTodo"
-              class="button is-info ml-3"
+              class="button is-info"
             >
               Add new
             </button>
           </div>
         </div>
       </form>
+    </div>
 
-      <div
-        v-for="todo in todos"
-        :class="{ 'has-background-success-light': todo.done }"
-        class="card mb-5"
-      >
-        <div class="card-content">
-          <div class="columns is-mobile is-vcentered">
-            <div
-              :class="{ 'has-text-success line-through': todo.done }"
-              class="column"
+    <div
+      v-for="todo in todos"
+      :class="{ 'has-background-success-light': todo.done }"
+      class="card mb-5"
+    >
+      <div class="card-content">
+        <div class="columns is-mobile is-vcentered">
+          <div
+            :class="{ 'has-text-success line-through': todo.done }"
+            class="column"
+          >
+            {{ todo.content }}
+          </div>
+          <div class="column has-text-right">
+            <button
+              :class="todo.done ? 'is-success' : 'is-light'"
+              class="button is-light"
+              @click="toggleDone(todo.id)"
             >
-              {{ todo.content }}
-            </div>
-            <div class="column has-text-right">
-              <button
-                :class="todo.done ? 'is-success' : 'is-light'"
-                class="button is-light"
-                @click="toggleDone(todo.id)"
-              >
-                &check;
-              </button>
-              <button
-                @click="deleteTodo(todo.id)"
-                class="button is-danger ml-2"
-              >
-                &cross;
-              </button>
-            </div>
+              &check;
+            </button>
+            <button @click="deleteTodo(todo.id)" class="button is-danger ml-2">
+              &cross;
+            </button>
           </div>
         </div>
       </div>
@@ -129,8 +126,5 @@ const toggleDone = (id) => {
 @import "/node_modules/bulma/css/bulma.min.css";
 .line-through {
   text-decoration: line-through;
-}
-* {
-  margin: auto;
 }
 </style>
