@@ -1,52 +1,66 @@
 <template>
-  <div>
-    <h1>Todo list</h1>
-    <form>
-      <div class="field has-addons">
-        <div class="control">
-          <input
-            v-model="newTodoContent"
-            class="input"
-            type="text"
-            placeholder="Add a todo"
-          />
-        </div>
-        <div class="control">
-          <button
-            :disabled="!newTodoContent"
-            @click.prevent="addNewTodo"
-            class="button is-info ml-3"
-          >
-            Add new
-          </button>
-        </div>
-      </div>
-    </form>
-
-    <div
-      v-for="todo in todos"
-      :class="{ 'has-background-success-light': todo.done }"
-      class="card mb-5"
-    >
-      <div class="card-content">
-        <div class="columns is-mobile is-vcentered">
-          <div
-            :class="{ 'has-text-success line-through': todo.done }"
-            class="column"
-          >
-            {{ todo.content }}
+  <div class="">
+    <div class="">
+      <h1
+        class="
+          mb-5
+          is-size-3 is-uppercase
+          has-text-weigth-bold has-text-centered
+          is-mobile
+        "
+      >
+        Todo list
+      </h1>
+      <form class="mb-5">
+        <div class="field has-addons">
+          <div class="control">
+            <input
+              v-model="newTodoContent"
+              class="input"
+              type="text"
+              placeholder="Add a todo"
+            />
           </div>
-          <div class="column has-text-right">
+          <div class="control">
             <button
-              :class="todo.done ? 'is-success' : 'is-light'"
-              class="button is-light"
-              @click="toggleDone(todo.id)"
+              :disabled="!newTodoContent"
+              @click.prevent="addNewTodo"
+              class="button is-info ml-3"
             >
-              &check;
+              Add new
             </button>
-            <button @click="deleteTodo(todo.id)" class="button is-danger ml-2">
-              &cross;
-            </button>
+          </div>
+        </div>
+      </form>
+
+      <div
+        v-for="todo in todos"
+        :class="{ 'has-background-success-light': todo.done }"
+        class="card mb-5"
+      >
+        <div class="card-content">
+          <div class="columns is-mobile is-vcentered">
+            <div
+              :class="{ 'has-text-success line-through': todo.done }"
+              class="column"
+            >
+              {{ todo.content }}
+            </div>
+            <div class="column has-text-right">
+              <button
+                :class="todo.done ? 'is-success' : 'is-light'"
+                class="button is-light"
+                @click="toggleDone(todo.id)"
+              >
+                &check;
+              </button>
+              <button
+                @click="deleteTodo(todo.id)"
+                class="button is-danger ml-2"
+              >
+                &cross;
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -115,5 +129,8 @@ const toggleDone = (id) => {
 @import "/node_modules/bulma/css/bulma.min.css";
 .line-through {
   text-decoration: line-through;
+}
+* {
+  margin: auto;
 }
 </style>
