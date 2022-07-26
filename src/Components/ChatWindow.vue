@@ -1,10 +1,50 @@
 <template>
-  <div class="w-full">
-    <Navbar />
-    <ChatWindow class="h-full" />
+  <div class="h-full">
+    <div v-for="todo in todos">
+      <div>
+        <div>
+          <div>
+            {{ todo.content }}
+          </div>
+          <!-- <div>
+            <button @click="toggleDone(todo.id)">&check;</button>
+            <button @click="deleteTodo(todo.id)">&cross;</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="">
+      <form class="">
+        <div class="">
+          <div class="">
+            <input
+              v-model="newTodoContent"
+              class="input"
+              type="text"
+              placeholder="Write a message..."
+            />
+          </div>
+          <div class="bg-gray-300 rounded-full text-center">
+            <button
+              class="border-gray-300 text-center"
+              :disabled="!newTodoContent"
+              @click.prevent="addNewTodo"
+            >
+              Send a message
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
+<script>
+export default {
+  name: "ChatWindow",
+};
+</script>
 <script setup>
 import { ref, onMounted } from "vue";
 import {
@@ -20,11 +60,8 @@ import {
 } from "firebase/firestore";
 
 import { db } from "@/firebase";
-import Navbar from "./Components/Navbar.vue";
-import ChatWindow from "./Components/ChatWindow.vue";
-
 const todosCollectionRef = collection(db, "todos");
-const todosColletionQuery = query(todosCollectionRef, orderBy("date", "desc"));
+const todosColletionQuery = query(todosCollectionRef, orderBy("date", "asc"));
 
 const todos = ref([]);
 
@@ -64,6 +101,7 @@ const toggleDone = (id) => {
   });
 };
 </script>
+
 <style scoped>
-@import "index.css";
+@import "@/index.css";
 </style>
