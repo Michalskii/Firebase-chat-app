@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Todo list</h1>
     <form>
       <div class="field has-addons">
         <div class="control">
