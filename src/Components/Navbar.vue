@@ -1,5 +1,5 @@
  <template>
-  <div class="bg-red-500">
+  <div class="bg-sky-200 w-full py-2 rounded-md text-center">
     <span class="text-xl">Welcome to chat app</span>
   </div>
 </template>

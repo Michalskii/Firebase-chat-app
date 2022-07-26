@@ -1,68 +1,13 @@
 <template>
-  <div class="w-full">
+  <div class="h-[100vh]">
     <Navbar />
-    <ChatWindow class="h-full" />
+    <ChatWindow />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import {
-  collection,
-  onSnapshot,
-  addDoc,
-  deleteDoc,
-  doc,
-  updateDoc,
-  query,
-  orderBy,
-  limit,
-} from "firebase/firestore";
-
-import { db } from "@/firebase";
 import Navbar from "./Components/Navbar.vue";
 import ChatWindow from "./Components/ChatWindow.vue";
-
-const todosCollectionRef = collection(db, "todos");
-const todosColletionQuery = query(todosCollectionRef, orderBy("date", "desc"));
-
-const todos = ref([]);
-
-onMounted(() => {
-  onSnapshot(todosColletionQuery, (querySnapshot) => {
-    const fbTodos = [];
-    querySnapshot.forEach((doc) => {
-      const todo = {
-        id: doc.id,
-        content: doc.data().content,
-        done: doc.data().done,
-      };
-      fbTodos.push(todo);
-    });
-    todos.value = fbTodos;
-  });
-});
-const newTodoContent = ref("");
-const addNewTodo = () => {
-  addDoc(todosCollectionRef, {
-    content: newTodoContent.value,
-    done: false,
-    date: Date.now(),
-  });
-
-  newTodoContent.value = "";
-};
-
-const deleteTodo = (id) => {
-  deleteDoc(doc(todosCollectionRef, id));
-};
-const toggleDone = (id) => {
-  const index = todos.value.findIndex((todo) => todo.id === id);
-
-  updateDoc(doc(todosCollectionRef, id), {
-    done: !todos.value[index].done,
-  });
-};
 </script>
 <style scoped>
 @import "index.css";

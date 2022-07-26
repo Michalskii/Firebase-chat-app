@@ -1,37 +1,38 @@
 <template>
-  <div class="h-full">
-    <div v-for="todo in todos">
-      <div>
-        <div>
-          <div>
-            {{ todo.content }}
-          </div>
-          <!-- <div>
+  <div class="h-[100vh]">
+    <div class="bg-sky-50 h-[80vh] box-grow">
+      <div
+        v-for="todo in todos"
+        class="bg-sky-100 py-0.5 w-fit rounded-full px-4"
+      >
+        Michalski: {{ todo.content }}
+      </div>
+      <!-- <div class="w-[50px] h-[50px] bg-gray-200"></div>
+      <div class="w-[50px] h-[50px] bg-gray-400"></div> -->
+    </div>
+    <!-- <div>
             <button @click="toggleDone(todo.id)">&check;</button>
             <button @click="deleteTodo(todo.id)">&cross;</button>
           </div> -->
-        </div>
-      </div>
-    </div>
 
     <div class="">
       <form class="">
         <div class="">
-          <div class="">
+          <div class="py-3">
             <input
               v-model="newTodoContent"
-              class="input"
+              class="input w-full"
               type="text"
               placeholder="Write a message..."
             />
           </div>
-          <div class="bg-gray-300 rounded-full text-center">
+          <div class="text-center bottom-0">
             <button
-              class="border-gray-300 text-center"
+              class="bg-sky-200 py-3 text-center w-full rounded-full"
               :disabled="!newTodoContent"
               @click.prevent="addNewTodo"
             >
-              Send a message
+              <span class="text-sky-700 font-bold">Send a message</span>
             </button>
           </div>
         </div>
@@ -104,4 +105,14 @@ const toggleDone = (id) => {
 
 <style scoped>
 @import "@/index.css";
+
+.box-grow {
+  display: flex; /* formerly flex: 1 0 auto; */
+  flex-direction: column;
+
+  padding: 5px;
+  margin: 5px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
 </style>
