@@ -1,12 +1,12 @@
 <template>
   <div class="h-[100vh]">
     <div><button @click="scrollToBottom">das</button></div>
-    <div class="bg-sky-50 h-[80vh] box-grow" id="chat">
+    <div class="bg-sky-50 h-[80vh] chatWindow" id="chat">
       <div
-        v-for="todo in todos"
+        v-for="message in messages"
         class="bg-sky-100 py-0.5 w-fit rounded-full px-4"
       >
-        {{ todo.name }}: {{ todo.content }}
+        {{ message.name }}: {{ message.content }}
       </div>
     </div>
 
@@ -15,7 +15,7 @@
         <div class="">
           <div class="py-3">
             <input
-              v-model="newTodoContent"
+              v-model="newMessageContent"
               class="input w-full"
               type="text"
               placeholder="Write a message..."
@@ -24,8 +24,8 @@
           <div class="text-center bottom-0">
             <button
               class="bg-sky-200 py-3 text-center w-full rounded-full"
-              :disabled="!newTodoContent"
-              @click.prevent="addNewTodo"
+              :disabled="!newMessageContent"
+              @click.prevent="addNewMessage"
             >
               <span class="text-sky-700 font-bold">Send a message</span>
             </button>
@@ -58,10 +58,13 @@ import {
 } from "firebase/firestore";
 
 import { db } from "@/firebase";
-const todosCollectionRef = collection(db, "messages");
-const todosColletionQuery = query(todosCollectionRef, orderBy("date", "asc"));
+const messagesCollectionRef = collection(db, "messages");
+const messagesCollectionQuery = query(
+  messagesCollectionRef,
+  orderBy("date", "asc")
+);
 
-const todos = ref([]);
+const messages = ref([]);
 
 const storeAuth = useStoreAuth();
 const user = storeAuth.user;
@@ -73,8 +76,8 @@ const scrollToBottom = () => {
 };
 
 onMounted(() => {
-  onSnapshot(todosColletionQuery, (querySnapshot) => {
-    const fbTodos = [];
+  onSnapshot(messagesCollectionQuery, (querySnapshot) => {
+    const fbMessages = [];
 
     const notification = {
       soundurl: "../src//assets/noti2.wav",
@@ -87,38 +90,38 @@ onMounted(() => {
     };
 
     querySnapshot.forEach((doc) => {
-      const todo = {
+      const message = {
         id: doc.id,
         content: doc.data().content,
         done: doc.data().done,
         name: doc.data().email,
       };
-      fbTodos.push(todo);
+      fbMessages.push(message);
 
       //   playSound();
       scrollToBottom();
     });
-    todos.value = fbTodos;
+    messages.value = fbMessages;
   });
 });
-const newTodoContent = ref("");
+const newMessageContent = ref("");
 
-const addNewTodo = () => {
-  addDoc(todosCollectionRef, {
-    content: newTodoContent.value,
+const addNewMessage = () => {
+  addDoc(messagesCollectionRef, {
+    content: newMessageContent.value,
     done: false,
     date: Date.now(),
     email: user.email,
   });
 
-  newTodoContent.value = "";
+  newMessageContent.value = "";
 };
 
 const toggleDone = (id) => {
-  const index = todos.value.findIndex((todo) => todo.id === id);
+  const index = messages.value.findIndex((message) => message.id === id);
 
-  updateDoc(doc(todosCollectionRef, id), {
-    done: !todos.value[index].done,
+  updateDoc(doc(messagesCollectionRef, id), {
+    done: !messages.value[index].done,
   });
 };
 </script>
@@ -126,7 +129,7 @@ const toggleDone = (id) => {
 <style scoped>
 @import "@/index.css";
 
-.box-grow {
+.chatWindow {
   display: flex; /* formerly flex: 1 0 auto; */
   flex-direction: column;
 
