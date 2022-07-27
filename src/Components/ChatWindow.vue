@@ -95,7 +95,7 @@ onMounted(() => {
       };
       fbTodos.push(todo);
 
-      playSound();
+      //   playSound();
       scrollToBottom();
     });
     todos.value = fbTodos;
