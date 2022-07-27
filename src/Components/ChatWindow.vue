@@ -74,20 +74,19 @@ const user = storeAuth.user;
 const scrollToBottom = () => {
   chat.scroll({ top: chat.scrollHeight, behavior: "smooth" });
 };
+// notification
+const notification = {
+  soundurl: "../src//assets/noti2.wav",
+};
+const playSound = () => {
+  var audio = new Audio(notification.soundurl);
+  console.log("playing sound");
+  audio.play();
+};
 
 onMounted(() => {
   onSnapshot(messagesCollectionQuery, (querySnapshot) => {
     const fbMessages = [];
-
-    const notification = {
-      soundurl: "../src//assets/noti2.wav",
-    };
-
-    const playSound = () => {
-      var audio = new Audio(notification.soundurl);
-      console.log("playing sound");
-      audio.play();
-    };
 
     querySnapshot.forEach((doc) => {
       const message = {
@@ -113,17 +112,15 @@ const addNewMessage = () => {
     date: Date.now(),
     email: user.email,
   });
-
-  newMessageContent.value = "";
 };
 
-const toggleDone = (id) => {
-  const index = messages.value.findIndex((message) => message.id === id);
+// const toggleDone = (id) => {
+//   const index = messages.value.findIndex((message) => message.id === id);
 
-  updateDoc(doc(messagesCollectionRef, id), {
-    done: !messages.value[index].done,
-  });
-};
+//   updateDoc(doc(messagesCollectionRef, id), {
+//     done: !messages.value[index].done,
+//   });
+// };
 </script>
 
 <style scoped>
