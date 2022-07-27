@@ -1,5 +1,6 @@
 <template>
   <div class="h-[100vh]">
+    <div><button @click="scrollToBottom">das</button></div>
     <div class="bg-sky-50 h-[80vh] box-grow" id="chat">
       <div
         v-for="todo in todos"
@@ -65,15 +66,26 @@ const todos = ref([]);
 const storeAuth = useStoreAuth();
 const user = storeAuth.user;
 
+//scroll
+
+const scrollToBottom = () => {
+  chat.scroll({ top: chat.scrollHeight, behavior: "smooth" });
+};
+
 onMounted(() => {
   onSnapshot(todosColletionQuery, (querySnapshot) => {
-    chat.scrollTo(0, 0);
-    // chat.scrollTo({
-    //   top: 0,
-    //   left: 100,
-    //   behavior: "smooth",
-    // });
     const fbTodos = [];
+
+    const notification = {
+      soundurl: "../src//assets/noti2.wav",
+    };
+
+    const playSound = () => {
+      var audio = new Audio(notification.soundurl);
+      console.log("playing sound");
+      audio.play();
+    };
+
     querySnapshot.forEach((doc) => {
       const todo = {
         id: doc.id,
@@ -82,11 +94,15 @@ onMounted(() => {
         name: doc.data().email,
       };
       fbTodos.push(todo);
+
+      playSound();
+      scrollToBottom();
     });
     todos.value = fbTodos;
   });
 });
 const newTodoContent = ref("");
+
 const addNewTodo = () => {
   addDoc(todosCollectionRef, {
     content: newTodoContent.value,
@@ -98,9 +114,6 @@ const addNewTodo = () => {
   newTodoContent.value = "";
 };
 
-const deleteTodo = (id) => {
-  deleteDoc(doc(todosCollectionRef, id));
-};
 const toggleDone = (id) => {
   const index = todos.value.findIndex((todo) => todo.id === id);
 
