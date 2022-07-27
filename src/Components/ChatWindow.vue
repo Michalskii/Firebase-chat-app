@@ -1,19 +1,13 @@
 <template>
   <div class="h-[100vh]">
-    <div class="bg-sky-50 h-[80vh] box-grow">
+    <div class="bg-sky-50 h-[80vh] box-grow" id="chat">
       <div
         v-for="todo in todos"
         class="bg-sky-100 py-0.5 w-fit rounded-full px-4"
       >
-        Michalski: {{ todo.content }}
+        {{ todo.name }}: {{ todo.content }}
       </div>
-      <!-- <div class="w-[50px] h-[50px] bg-gray-200"></div>
-      <div class="w-[50px] h-[50px] bg-gray-400"></div> -->
     </div>
-    <!-- <div>
-            <button @click="toggleDone(todo.id)">&check;</button>
-            <button @click="deleteTodo(todo.id)">&cross;</button>
-          </div> -->
 
     <div class="">
       <form class="">
@@ -48,6 +42,8 @@ export default {
 </script>
 <script setup>
 import { ref, onMounted } from "vue";
+import { useStoreAuth } from "../stores/storeAuth";
+
 import {
   collection,
   onSnapshot,
@@ -61,19 +57,29 @@ import {
 } from "firebase/firestore";
 
 import { db } from "@/firebase";
-const todosCollectionRef = collection(db, "todos");
+const todosCollectionRef = collection(db, "messages");
 const todosColletionQuery = query(todosCollectionRef, orderBy("date", "asc"));
 
 const todos = ref([]);
 
+const storeAuth = useStoreAuth();
+const user = storeAuth.user;
+
 onMounted(() => {
   onSnapshot(todosColletionQuery, (querySnapshot) => {
+    chat.scrollTo(0, 0);
+    // chat.scrollTo({
+    //   top: 0,
+    //   left: 100,
+    //   behavior: "smooth",
+    // });
     const fbTodos = [];
     querySnapshot.forEach((doc) => {
       const todo = {
         id: doc.id,
         content: doc.data().content,
         done: doc.data().done,
+        name: doc.data().email,
       };
       fbTodos.push(todo);
     });
@@ -86,6 +92,7 @@ const addNewTodo = () => {
     content: newTodoContent.value,
     done: false,
     date: Date.now(),
+    email: user.email,
   });
 
   newTodoContent.value = "";
