@@ -1,5 +1,47 @@
  <template>
-  <div class="bg-sky-200 w-full py-2 rounded-md text-center">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://bulma.io"> Chatty </a>
+
+      <a
+        role="button"
+        class="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarBasicExample"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start text-xl">
+        <RouterLink class="navbar-item" to="/">Home</RouterLink>
+
+        <RouterLink class="navbar-item" to="/chatview">Chat </RouterLink>
+
+        <a class="navbar-item"> <RouterLink to="/auth"> Login</RouterLink> </a>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <button
+              v-if="!isLoggedIn"
+              @click="storeAuth.logoutUser"
+              class="button is-medium is-info mt-3 p-3"
+            >
+              Log out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- <div class="bg-sky-200 w-full py-2 rounded-md text-center">
     <RouterLink to="/">Chat</RouterLink>
     <RouterLink to="/auth"> Auth</RouterLink>
     <div>
@@ -10,7 +52,7 @@
         Log out
       </button>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -20,8 +62,12 @@ export default {
 </script>
 <script setup >
 import { useStoreAuth } from "../stores/storeAuth";
+import { computed } from "vue";
 
 const storeAuth = useStoreAuth();
+const user = storeAuth.user;
+
+const isLoggedIn = computed(() => Object.keys(user).length === 0);
 </script>
  
 <style scoped>

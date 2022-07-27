@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { auth } from '@/firebase/index';
+
 import {
 	createUserWithEmailAndPassword,
 	signOut,
@@ -56,9 +57,10 @@ export const useStoreAuth = defineStore({
 				.then((userCredential) => {
 					// Signed in
 					const user = userCredential.user;
-					// ...
+
 					console.log('user logged in', user);
 				})
+
 				.catch((error) => {
 					alert('Invalid credentials');
 					const errorCode = error.code;

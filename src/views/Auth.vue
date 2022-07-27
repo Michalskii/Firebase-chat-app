@@ -51,9 +51,14 @@
 </template>
 <script setup>
 // imports
+import { useRouter, useRoute } from "vue-router";
 
 import { ref, computed, reactive } from "vue";
 import { useStoreAuth } from "../stores/storeAuth";
+
+//router
+const router = useRouter();
+const route = useRoute();
 // store
 const storeAuth = useStoreAuth();
 
@@ -80,8 +85,10 @@ const onSubmit = () => {
   } else {
     if (register.value) {
       storeAuth.registerUser(credentials);
+      router.push("/gz");
     } else {
       storeAuth.loginUser(credentials);
+      router.push("/");
     }
   }
 };

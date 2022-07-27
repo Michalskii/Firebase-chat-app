@@ -1,13 +1,30 @@
 <template>
   <div class="h-[100vh]">
-    <div><button @click="scrollToBottom">das</button></div>
+    <div>
+      <button @click="scrollToBottom">scroll</button>
+    </div>
     <div class="bg-sky-50 h-[80vh] chatWindow" id="chat">
-      <div
+      <article v-for="message in messages" class="message is-info">
+        <div
+          class="
+            message-header
+            w-fit
+            rounded-full
+            transition
+            duration-700
+            ease-in-out
+          "
+        >
+          <p>{{ message.name }} : {{ message.content }}</p>
+        </div>
+      </article>
+
+      <!-- <div
         v-for="message in messages"
         class="bg-sky-100 py-0.5 w-fit rounded-full px-4"
       >
         {{ message.name }}: {{ message.content }}
-      </div>
+      </div> -->
     </div>
 
     <div class="">
@@ -42,6 +59,8 @@ export default {
 };
 </script>
 <script setup>
+import { nextTick } from "vue";
+
 import { ref, onMounted } from "vue";
 import { useStoreAuth } from "../stores/storeAuth";
 
@@ -71,8 +90,11 @@ const user = storeAuth.user;
 
 //scroll
 
-const scrollToBottom = () => {
-  chat.scroll({ top: chat.scrollHeight, behavior: "smooth" });
+const scrollToBottom = async () => {
+  await nextTick();
+
+  chat.scroll({ top: chat.scrollHeight, behavior: "instant" });
+  console.log("scrolling down");
 };
 // notification
 const notification = {
@@ -83,6 +105,7 @@ const playSound = () => {
   console.log("playing sound");
   audio.play();
 };
+const newMessageContent = ref("");
 
 onMounted(() => {
   onSnapshot(messagesCollectionQuery, (querySnapshot) => {
@@ -96,14 +119,13 @@ onMounted(() => {
         name: doc.data().email,
       };
       fbMessages.push(message);
-
-      //   playSound();
+      console.log("pushing message");
       scrollToBottom();
     });
     messages.value = fbMessages;
+    console.log("updating messages");
   });
 });
-const newMessageContent = ref("");
 
 const addNewMessage = () => {
   addDoc(messagesCollectionRef, {
@@ -112,6 +134,7 @@ const addNewMessage = () => {
     date: Date.now(),
     email: user.email,
   });
+  newMessageContent.value = "";
 };
 
 // const toggleDone = (id) => {
