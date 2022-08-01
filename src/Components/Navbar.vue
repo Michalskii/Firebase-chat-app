@@ -22,7 +22,9 @@
 
         <RouterLink class="navbar-item" to="/chatview">Chat </RouterLink>
 
-        <a class="navbar-item"> <RouterLink to="/auth"> Login</RouterLink> </a>
+        <RouterLink v-if="isLoggedIn" class="navbar-item" to="/auth">
+          Login</RouterLink
+        >
       </div>
 
       <div class="navbar-end">

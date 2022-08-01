@@ -49,6 +49,7 @@ export const useStoreAuth = defineStore({
 				.catch((error) => {
 					console.log(error);
 				});
+			window.location.reload();
 		},
 		loginUser(credentials) {
 			console.log('login', credentials);
@@ -59,6 +60,7 @@ export const useStoreAuth = defineStore({
 					const user = userCredential.user;
 
 					console.log('user logged in', user);
+					window.location.reload();
 				})
 
 				.catch((error) => {
@@ -66,6 +68,7 @@ export const useStoreAuth = defineStore({
 					const errorCode = error.code;
 					const errorMessage = error.message;
 				});
+			// window.location.reload();
 		},
 	},
 });
