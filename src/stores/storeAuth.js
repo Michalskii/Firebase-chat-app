@@ -35,6 +35,7 @@ export const useStoreAuth = defineStore({
 			)
 				.then((userCredential) => {
 					const user = userCredential.user;
+					window.location.reload();
 				})
 				.catch((error) => {
 					console.log(error.code);
