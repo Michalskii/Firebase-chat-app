@@ -4,7 +4,7 @@
       <button @click="scrollToBottom">scroll</button>
     </div>
     <div class="bg-sky-50 h-[80vh] chatWindow" id="chat">
-      <article v-for="message in messages" class="message is-info">
+      <article v-for="message in messages" class="message is-info mess">
         <div
           class="
             message-header
@@ -157,5 +157,17 @@ const addNewMessage = () => {
   margin: 5px;
   overflow-y: scroll;
   scroll-behavior: smooth;
+}
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.mess {
+  animation-name: messageAppear;
+  animation-duration: 0.2s;
 }
 </style>
